@@ -94,7 +94,7 @@ function VMDashboardjsx() {
               <div className=" rounded-lg">
                 <div className="flex px-4 py-5  space-x-9 ">
                   {!offlineBooking.turfDetails ? (
-                    quickBookTurfs.map((per, index) => (
+                    quickBookTurfs?.map((per, index) => (
                       <div key={index} className="border rounded-md">
                         <div className="p-2">
                           <h1 className="font-semibold text-xl text-[#504a4ad0] ">{per.venueName} </h1>
@@ -113,7 +113,7 @@ function VMDashboardjsx() {
                     ))
                   ) : //else
                   !offlineBooking.sport ? (
-                    offlineBooking.turfDetails.sportFacility.map((perSport, index) => (
+                    offlineBooking.turfDetails?.sportFacility?.map((perSport, index) => (
                       <div key={index} className="border w-44 rounded-md flex flex-col mt-3 ">
                         <div className="p-2">
                           <h1 className="font-semibold text-xl text-[#504a4ad0] ">{perSport.sport}</h1>
@@ -201,7 +201,7 @@ function VMDashboardjsx() {
                   </tr>
                 </thead>
                 <tbody>
-                  {latestBooking.map((per, index) => (
+                  {latestBooking?.map((per, index) => (
                     <tr key={index} className="border-b border-gray-200 dark:border-gray-700">
                       <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
                         {per.venueName}
