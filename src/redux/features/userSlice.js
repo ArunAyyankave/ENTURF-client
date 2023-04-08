@@ -58,16 +58,17 @@ const userSlice = createSlice({
         });
 
         builder.addCase(signin.fulfilled, (state, action) => {
-            localStorage.setItem('user',action.payload.accessToken);
-            state.mobile = action.payload.mobile
-            state.name = action.payload.name
-            state.wallet = action.payload.wallet
             state.signin.isLoading = false;
             state.signin.errMsg = ''
+            state.mobile = action.payload.mobile
+            state.name = action.payload.name
+            localStorage.setItem('user',action.payload.accessToken);
+            state.wallet = action.payload.wallet
             state.isLoggedIn = true;
         });
 
         builder.addCase(signin.rejected, (state, action) => {
+            state.signin.isLoading = false
             state.signin.errMsg = action.payload.message
         }); 
 

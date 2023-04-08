@@ -21,7 +21,7 @@ function AdminRoutes() {
         <Route path="turfs" element={<AuthenticatedRoute><TurfManage /></AuthenticatedRoute>} />
         <Route path="vm" element={<AuthenticatedRoute><VMManage /></AuthenticatedRoute>} />
         <Route path="users" element={<AuthenticatedRoute><UsersManage /></AuthenticatedRoute>} />
-        <Route path="bookings" element={<BookingManage/>} />
+        <Route path="bookings" element={<AuthenticatedRoute><BookingManage/></AuthenticatedRoute>} />
       </Route>
     </Routes>
   );
