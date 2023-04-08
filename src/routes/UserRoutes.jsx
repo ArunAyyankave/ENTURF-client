@@ -21,7 +21,7 @@ function UserRoutes() {
         <Route index element={<Landing />} />
         <Route path="forgotPwd" element={<ForgotPwd />} />
         <Route path="signin" element={<UnAuthenticatedRoute><Signin /></UnAuthenticatedRoute>} />
-        <Route path="signup" element={<Signup />} />
+        <Route path="signup" element={<UnAuthenticatedRoute><Signup /></UnAuthenticatedRoute>} />
         <Route path="managerSignup" element={<ManagerSignup />} />
         <Route path="venues/:place" element={<VenuesPage />} />
         <Route path="venue/:id" element={<SingleVenue />} />

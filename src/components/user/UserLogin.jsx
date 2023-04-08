@@ -7,8 +7,6 @@ import Google from "../../assets/Google.png";
 import SignImage from "./SignImageSection";
 const LOGIN_URL = "/signin";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserDetails } from "../../redux/features/userSlice";
-import ForgotPassword from "./ForgotPassword";
 import { userLogin } from "../../redux/features/userSlice";
 //service
 import { signin } from "../../redux/thunk/user";
@@ -99,7 +97,7 @@ function UserLogin() {
 
   return (
     <>
-      {user?.isLoggedIn && <Navigate to="/" replace />}
+      {user?.isLoggedIn && <Navigate to="/" />}
       <div className="pb-0 sm:pb-32 h-screen">
         <div className="w-screen sm:container mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-center">
