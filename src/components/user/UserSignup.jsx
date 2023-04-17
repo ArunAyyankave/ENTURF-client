@@ -41,7 +41,7 @@ function UserSignup() {
   const [validMatchPwd, setValidMatchPwd] = useState(false);
   const [matchPwdFocus, setMatchPwdFocus] = useState(false);
 
-  const [timer,setTimer] = useState(60);
+  const [timer, setTimer] = useState(60);
 
   const [errMsg, setErrMsg] = useState("");
 
@@ -91,13 +91,13 @@ function UserSignup() {
 
   useEffect(() => {
     let Timer;
-    if(success && timer>0){
-      Timer = setTimeout(()=>{
-        setTimer(timer-1);
-      },1000);
+    if (success && timer > 0) {
+      Timer = setTimeout(() => {
+        setTimer(timer - 1);
+      }, 1000);
     }
     return () => clearTimeout(Timer);
-  }, [success,timer]);
+  }, [success, timer]);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -110,14 +110,10 @@ function UserSignup() {
       return;
     }
     try {
-      const response = await axios.post(
-        MOBILE_URL,
-        JSON.stringify({ mobile }),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post(MOBILE_URL, JSON.stringify({ mobile }), {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
       const otpResponse = await setUpRecaptcha("+91" + mobile);
       setConfirm(otpResponse);
       setSuccess(true);
@@ -143,15 +139,11 @@ function UserSignup() {
     }
     try {
       await confirm.confirm(OTP).then(async () => {
-        const {data} = await axios.post(
-          SIGNUP_URL,
-          JSON.stringify({ name: user, mobile, password: pwd }),
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          }
-        );
-        dispatch(setUserDetails({name:user,mobile,wallet:0}))
+        const { data } = await axios.post(SIGNUP_URL, JSON.stringify({ name: user, mobile, password: pwd }), {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        });
+        dispatch(setUserDetails({ name: user, mobile, wallet: 0 }));
         localStorage.setItem("user", JSON.stringify(data));
         setUser("");
         setMobile("");
@@ -161,8 +153,8 @@ function UserSignup() {
       });
     } catch (error) {
       console.log(error.message);
-      if(error.message === 'Firebase: Error (auth/invalid-verification-code).'){
-        setErrMsg('invalid OTP')
+      if (error.message === "Firebase: Error (auth/invalid-verification-code).") {
+        setErrMsg("invalid OTP");
       } else if (!error?.response) {
         setErrMsg("no server response");
       } else if (error.response?.status === 409) {
@@ -173,16 +165,15 @@ function UserSignup() {
     }
   };
 
-  const handleResendOTP = async ()=> {
-    if(timer!==0)return;
+  const handleResendOTP = async () => {
+    if (timer !== 0) return;
     try {
       const otpResponse = await setUpRecaptcha("+91" + mobile);
-        setConfirm(otpResponse);
-      
+      setConfirm(otpResponse);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   return (
     <section>
@@ -194,18 +185,11 @@ function UserSignup() {
             </div>
             {success ? (
               <div className="py-10 sm:pt-40">
-                <div className="rounded-lg shadow-xl w-96 h-auto py-4">
+                <div className="rounded-lg sm:shadow-xl w-96 h-auto py-4">
                   <div className="px-10 sm:px-4">
-                    <h1 className="text-4xl select-none font-semibold font-roboto ">
-                      Enter your OTP that send to you mobile
-                    </h1>
-                    <p className="text-md py-2 font-sans">
-                      Just play. Have fun. Enjoy the game.
-                    </p>
-                    <p
-                      ref={errRef}
-                      className={errMsg ? "errmsg text-red-700" : "offscreen"}
-                    >
+                    <h1 className="text-4xl select-none font-semibold font-roboto ">Enter your OTP that send to you mobile</h1>
+                    <p className="text-md py-2 font-sans">Just play. Have fun. Enjoy the game.</p>
+                    <p ref={errRef} className={errMsg ? "errmsg text-red-700" : "offscreen"}>
                       {errMsg}
                     </p>
                     <form id="otpForm" onSubmit={handleOTP}>
@@ -233,19 +217,19 @@ function UserSignup() {
                               <Cross />
                             </div>
                           )}
-                          <p
-                            className={
-                              OTPFocus && OTP && !validOTP
-                                ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                : "hidden"
-                            }
-                          >
+                          <p className={OTPFocus && OTP && !validOTP ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                             <Info />
                             enter Six digit OTP.
                           </p>
                         </div>
                         <div id="recaptcha-container" />
-                        <p className={`  ${timer===0?"text-blue-500 hover:underline cursor-pointer":"text-cyan-600 cursor-not-allowed"}`} onClick={handleResendOTP} disabled={timer===0?false:true}>Resend OTP <span className={`text-black  ${timer===0 && 'hidden'}`}>{timer}</span></p>
+                        <p
+                          className={`  ${timer === 0 ? "text-blue-500 hover:underline cursor-pointer" : "text-cyan-600 cursor-not-allowed"}`}
+                          onClick={handleResendOTP}
+                          disabled={timer === 0 ? false : true}
+                        >
+                          Resend OTP <span className={`text-black  ${timer === 0 && "hidden"}`}>{timer}</span>
+                        </p>
                         <button
                           className="w-full select-none p-3 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800 disabled:hover:bg-emerald-700"
                           disabled={!validOTP ? true : false}
@@ -260,18 +244,11 @@ function UserSignup() {
               </div>
             ) : (
               <div className="py-10 sm:pt-40">
-                <div className="rounded-lg shadow-xl w-96 h-auto">
+                <div className="rounded-lg sm:shadow-xl w-96 h-auto">
                   <div className="px-10 sm:px-4">
-                    <h1 className="text-4xl select-none font-semibold font-roboto ">
-                      Sign up
-                    </h1>
-                    <p className="text-md py-2 font-sans">
-                      Just play. Have fun. Enjoy the game.
-                    </p>
-                    <p
-                      ref={errRef}
-                      className={errMsg ? "errmsg text-red-700" : "offscreen"}
-                    >
+                    <h1 className="text-4xl select-none font-semibold font-roboto ">Sign up</h1>
+                    <p className="text-md py-2 font-sans">Just play. Have fun. Enjoy the game.</p>
+                    <p ref={errRef} className={errMsg ? "errmsg text-red-700" : "offscreen"}>
                       {errMsg}
                     </p>
                     <form id="signupForm" onSubmit={handleSignup} noValidate>
@@ -300,13 +277,7 @@ function UserSignup() {
                               <Cross />
                             </div>
                           )}
-                          <p
-                            className={
-                              userFocus && user && !validName
-                                ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                : "hidden"
-                            }
-                          >
+                          <p className={userFocus && user && !validName ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                             <Info />
                             4 to 23 character.
                             <br />
@@ -339,13 +310,7 @@ function UserSignup() {
                               <Cross />
                             </div>
                           )}
-                          <p
-                            className={
-                              mobileFocus && mobile && !validMobile
-                                ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                : "hidden"
-                            }
-                          >
+                          <p className={mobileFocus && mobile && !validMobile ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                             <Info />
                             Enter valid number.
                             <br />
@@ -373,18 +338,11 @@ function UserSignup() {
                               <Cross />
                             </div>
                           )}
-                          <p
-                            className={
-                              pwdFocus && pwd && !validPwd
-                                ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                : "hidden"
-                            }
-                          >
+                          <p className={pwdFocus && pwd && !validPwd ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                             <Info />
                             8 to 24 character.
                             <br />
-                            Must include uppercase and lowercase letters, a
-                            number and a special character. <br />
+                            Must include uppercase and lowercase letters, a number and a special character. <br />
                             Allowed special character: <span>! @ # * $ %</span>
                           </p>
                         </div>
@@ -410,13 +368,7 @@ function UserSignup() {
                               <Cross />
                             </div>
                           )}
-                          <p
-                            className={
-                              matchPwdFocus && !validMatchPwd && matchPwd
-                                ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2"
-                                : "hidden"
-                            }
-                          >
+                          <p className={matchPwdFocus && !validMatchPwd && matchPwd ? "block font-roboto text-red-700 bg-[#f0e1e1] rounded p-2" : "hidden"}>
                             <Info />
                             Must match the first password input field.
                             <br />
@@ -432,14 +384,7 @@ function UserSignup() {
                         />
                         <button
                           className="w-full select-none p-4 bg-emerald-700 rounded-full text-white text-xl font-roboto mt-5 font-semibold hover:bg-emerald-800 disabled:hover:bg-emerald-700"
-                          disabled={
-                            !validName ||
-                            !validMobile ||
-                            !validPwd ||
-                            !validMatchPwd
-                              ? true
-                              : false
-                          }
+                          disabled={!validName || !validMobile || !validPwd || !validMatchPwd ? true : false}
                           type="submit"
                         >
                           Sign up
@@ -455,21 +400,14 @@ function UserSignup() {
                       <button className="border-2 select-none bg-white border-slate-300 text-slate-500 hover:bg-[#edf3f2]  rounded-full pl-12 w-full text-xl font-roboto font-semibold  p-3">
                         Sign in with Google
                       </button>
-                      <img
-                        src={Google}
-                        className="h-6 ml-10 sm:ml-16  -mt-10 select-none pointer-events-none"
-                        alt=""
-                        s
-                      />
+                      <img src={Google} className="h-6 ml-10 sm:ml-16  -mt-10 select-none pointer-events-none" alt="" s />
                     </div>
                   </div>
                   <div className="place-content-center">
                     <p className="px-16 py-10">
-                      already have an account?
+                      already have an account? &nbsp;
                       <Link to="/signin">
-                        <span className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">
-                          Signin
-                        </span>
+                        <span className="text-green-800 hover:text-green-900 hover:underline cursor-pointer">signin</span>
                       </Link>
                     </p>
                   </div>
